@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<!-- Tienda generada con Harvys, asistente de e-commerce creado por el Profesor Harvey Sanabria -->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elisa Variedades — Detalles que hacen hogar.</title>
+<meta name="description" content="Decoración para el hogar y Navidad, juegos de baño y cocina, cojines, cubrelechos, cuadros, tejidos guatemaltecos y en cinta, y bisutería.">
+<meta name="generator" content="Harvys — asistente de e-commerce del Profesor Harvey Sanabria">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="anim-baja tarj-elevadas modo-claro">
+
+<!-- MODAL PAGO -->
+<div class="modal-overlay" id="modal-pago" onclick="modalClickFuera(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-head"><h3>Confirmar pago</h3><button class="modal-cerrar" onclick="cerrarModal()" aria-label="Cerrar">✕</button></div>
+    <div class="modal-body">
+      <div class="modal-total"><span class="tl">Total a pagar</span><span class="tm" id="modal-total-monto">$0</span></div>
+      <div class="pago-metodos" id="pago-metodos"></div>
+      <div class="pago-datos" id="pago-datos">
+        <div class="pd-label">Transferir a este número</div>
+        <div class="pd-numero" id="pd-numero"></div>
+        <div class="pd-nombre" id="pd-nombre"></div>
+        <button class="btn-copiar" onclick="copiarNumero()">📋 Copiar número</button>
+      </div>
+      <div class="pasos">
+        <div class="paso"><div class="paso-num">1</div><div class="paso-txt" id="paso-1"></div></div>
+        <div class="paso"><div class="paso-num">2</div><div class="paso-txt">Toca <strong>"Confirmar y enviar"</strong> — se abre WhatsApp con tu pedido</div></div>
+        <div class="paso"><div class="paso-num">3</div><div class="paso-txt" id="paso-3"></div></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <a href="#" target="_blank" rel="noopener" class="btn-wsp" onclick="return prepararWsp(this)">✅ Confirmar y enviar por WhatsApp</a>
+      <button class="btn-seguir" onclick="cerrarModal()">← Seguir comprando</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay" onclick="cerrarCarrito()"></div>
+
+<!-- VISOR DE FOTOS -->
+<div class="visor" id="visor" role="dialog" aria-modal="true" aria-label="Foto del producto">
+  <figure class="visor-caja">
+    <button class="visor-cerrar" aria-label="Cerrar">✕</button>
+    <div class="visor-foto" id="visor-foto"><img id="visor-img" alt=""></div>
+    <figcaption><strong id="visor-nombre"></strong><span id="visor-precio"></span></figcaption>
+    <div class="visor-ayuda">Toca o haz clic en la foto para ampliarla más</div>
+  </figure>
+</div>
+
+<button class="carrito-fab" onclick="toggleCarrito()" id="fab" aria-label="Abrir carrito">🛒<span class="carrito-badge" id="badge">0</span></button>
+
+<div class="carrito-panel" id="panel-carrito">
+  <div class="panel-header"><h3>Tus detalles elegidos</h3><button class="btn-cerrar" onclick="cerrarCarrito()" aria-label="Cerrar carrito">✕</button></div>
+  <ul id="lista-carrito"></ul>
+  <div class="panel-footer">
+    <div class="total-row"><span class="total-lbl">Total</span><span class="total-monto" id="total">$0</span></div>
+    <div class="panel-btns"><button class="btn-vaciar" onclick="vaciarCarrito()">Vaciar</button><button class="btn-pagar" onclick="pagar()">Consultar pedido por WhatsApp</button></div>
+  </div>
+</div>
+
+<!-- ASISTENTE DE LA TIENDA (responde con los datos de esta tienda) -->
+<span class="as-aviso" id="as-aviso">¿Te ayudo? 👋</span>
+<button class="as-burbuja" id="as-burbuja" aria-label="Abrir el asistente de la tienda"><svg class="as-robot" viewBox="0 0 64 64" aria-hidden="true">
+      <line x1="32" y1="5" x2="32" y2="14" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <circle class="as-antena" cx="32" cy="5" r="4" fill="currentColor"/>
+      <rect x="4" y="27" width="6" height="12" rx="3" fill="currentColor"/>
+      <rect x="54" y="27" width="6" height="12" rx="3" fill="currentColor"/>
+      <rect x="10" y="14" width="44" height="38" rx="15" fill="currentColor"/>
+      <rect x="16" y="21" width="32" height="20" rx="10" fill="var(--as-cara)"/>
+      <circle class="as-ojo" cx="25" cy="31" r="4" fill="currentColor"/>
+      <circle class="as-ojo" cx="39" cy="31" r="4" fill="currentColor"/>
+      <path d="M26 45q6 4 12 0" stroke="var(--as-cara)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </svg></button>
+<div class="as-panel" id="as-panel" role="dialog" aria-label="Eli">
+  <div class="as-cabecera">
+    <div class="as-avatar"><svg class="as-robot" viewBox="0 0 64 64" aria-hidden="true">
+      <line x1="32" y1="5" x2="32" y2="14" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <circle class="as-antena" cx="32" cy="5" r="4" fill="currentColor"/>
+      <rect x="4" y="27" width="6" height="12" rx="3" fill="currentColor"/>
+      <rect x="54" y="27" width="6" height="12" rx="3" fill="currentColor"/>
+      <rect x="10" y="14" width="44" height="38" rx="15" fill="currentColor"/>
+      <rect x="16" y="21" width="32" height="20" rx="10" fill="var(--as-cara)"/>
+      <circle class="as-ojo" cx="25" cy="31" r="4" fill="currentColor"/>
+      <circle class="as-ojo" cx="39" cy="31" r="4" fill="currentColor"/>
+      <path d="M26 45q6 4 12 0" stroke="var(--as-cara)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </svg></div>
+    <div><strong>Eli</strong><small><i></i> En línea</small></div>
+    <button id="as-cerrar" aria-label="Cerrar el asistente">✕</button>
+  </div>
+  <div class="as-mensajes" id="as-mensajes"></div>
+  <div class="as-chips" id="as-chips"></div>
+  <form class="as-form" id="as-form">
+    <input id="as-input" placeholder="Escribe tu pregunta…" autocomplete="off" aria-label="Tu pregunta">
+    <button type="submit" aria-label="Enviar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></button>
+  </form>
+</div>
+
+<header class="hero hero-centrado">
+  <div class="hero-bg efecto-ninguno"></div>
+  <div class="hero-content">
+    <div>
+      
+      <div class="hero-badge">Elisa Variedades · Bogotá</div>
+      <h1>Detalles que<span>hacen hogar</span></h1>
+      <p class="hero-sub">Decoración, tejidos y detalles para darle un toque especial a tus espacios y a tu Navidad.</p>
+      <a href="#catalogo" class="btn-hero">Descubrir los detalles
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <div class="hero-stats"><div class="hero-stat"><div class="num">9</div><div class="lbl">Detalles para elegir</div></div><div class="hero-stat"><div class="num">Bogotá</div><div class="lbl">Nuestro hogar</div></div><div class="hero-stat"><div class="num">♡</div><div class="lbl">Decoración y tejidos</div></div></div>
+    </div>
+    </div>
+  <div class="hero-scroll"><div></div></div>
+</header>
+
+<section class="banner-sec">
+  <div class="banner-glow"></div>
+  <div class="banner-content">
+    <div class="sec-label">Un hogar con tu estilo</div>
+    <h2>Pequeños detalles, <em>momentos especiales</em></h2>
+    <p>Explora juegos de cocina y baño, cojines, tejidos y decoración navideña. Realizamos domicilios, envíos nacionales y ofrecemos recogida personal. La entrega puede tomar una semana o más, según la elaboración; consulta los tiempos y costos antes de pedir.</p>
+    <div class="banner-chips"><span class="chip">Decoración para el hogar</span><span class="chip">Tejidos y Navidad</span><span class="chip">Recogida personal</span><span class="chip">Envíos nacionales</span></div>
+  </div>
+</section>
+
+<div class="filtros-wrap" id="filtros-bar">
+  <div class="busqueda-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/></svg>
+    <input type="text" id="buscador" placeholder="Buscar producto..." oninput="filtrarBusqueda()">
+  </div>
+</div>
+<section class="catalogo-wrap" id="catalogo">
+  <div class="catalogo-header">
+    <div><div class="sec-label">Nuestra colección</div><div class="sec-title">Detalles para tu hogar</div></div>
+    <div class="catalogo-count" id="cont-count"></div>
+  </div>
+  <div id="productos"></div>
+</section>
+
+<section class="beneficios-sec" id="beneficios">
+  <div class="sec-centro"><div class="sec-label">Así recibes tus detalles</div><div class="sec-title">Tu pedido, a tu manera</div></div>
+  <div class="beneficios-grid">
+    <div class="bcard"><div class="bcard-icono">🚚</div><h3>Entregas y envíos</h3><p>Domicilios en Bogotá y alrededores y envíos nacionales. Consulta cobertura y costo para tu dirección.</p></div><div class="bcard"><div class="bcard-icono">🛍️</div><h3>Recogida personal</h3><p>También puedes recoger tu pedido personalmente. Coordina el lugar y la entrega por WhatsApp.</p></div><div class="bcard"><div class="bcard-icono">🧵</div><h3>Cada elaboración tiene su tiempo</h3><p>Planea tu pedido con anticipación: la entrega toma una semana o más, dependiendo de la elaboración.</p></div>
+  </div>
+</section>
+
+<section class="recs-sec">
+  <div class="sec-label">Para inspirarte</div>
+  <div class="sec-title">Detalles para descubrir</div>
+  <div class="recs-grid" id="recomendados"></div>
+</section>
+
+<section class="top-sec">
+  <div class="sec-label">Los favoritos de la comunidad</div>
+  <div class="sec-title">Los detalles más votados</div>
+  <div class="top-grid" id="top"></div>
+</section>
+
+<section class="duelo-sec">
+  <div class="sec-label">Elige tu favorito</div>
+  <div class="sec-title">¿Qué detalle llevarías a casa?</div>
+  <div class="duelo-arena" id="duelo"></div>
+  <p class="duelo-info">Toca el detalle que más te guste y ayúdalo a subir entre los favoritos.</p>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-marca"><h3>Elisa Variedades</h3><p>Elisa Variedades · Decoración, tejidos y detalles para el hogar desde Bogotá.</p></div>
+    <div class="footer-col"><h4>Contacto</h4><ul><li><a href="https://wa.me/573144596187" target="_blank" rel="noopener">WhatsApp: +57 3144596187</a></li><li>📍 Bogotá</li></ul></div>
+    <div class="footer-col"><h4>Pagos</h4><ul><li>Contraentrega</li></ul></div>
+    <div class="footer-col"><h4>Categorías</h4><ul><li>Juegos de cocina</li><li>Tejidos</li><li>Navidad</li><li>Juegos de baño</li><li>Cojines</li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Elisa Variedades — Todos los derechos reservados</span>
+    <span>Detalles que hacen hogar.</span>
+  </div>
+  <div class="footer-credito">
+    Creada con <strong>Harvys</strong> · Prof. Harvey Sanabria ·
+    <a href="https://wa.me/573103323843?text=Hola%20Profesor%20Harvey%2C%20vi%20una%20tienda%20creada%20con%20Harvys%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n." target="_blank" rel="noopener">WhatsApp 310 332 3843</a>
+  </div>
+</footer>
+
+<!-- Copia del proyecto para volver a abrirlo en Harvys (botón "Abrir"). No la borres. -->
+<script type="application/json" id="harvys-proyecto">{"negocio":{"nombre":"Elisa Variedades","descripcion":"Decoración para el hogar y Navidad, juegos de baño y cocina, cojines, cubrelechos, cuadros, tejidos guatemaltecos y en cinta, y bisutería.","eslogan":"Detalles que hacen hogar.","ciudad":"Bogotá","cobertura":"Domicilios en Bogotá y alrededores y envíos nacionales. Destinos, costos y condiciones por confirmar. También puedes recoger tu pedido personalmente. Elaboración y entrega: una semana o más, según el producto.","whatsapp":"573144596187","instagram":"","facebook":"","tiktok":"","horarios":[],"logo":""},"tema":{"nombreEstilo":"Hogar delicado","modo":"claro","colores":{"primario":"#8F3038","textoSobrePrimario":"#FFFFFF","fondo":"#FCF8F0","fondoAlterno":"#F1E8D9","tarjeta":"#FFFFFF","texto":"#302B26","textoSuave":"#685E53","acento":"#365C45"},"fuentes":{"titulos":"Lora","cuerpo":"Nunito"},"titulosMayusculas":false,"radio":20,"animaciones":"baja","fondoEfecto":"ninguno","hero":"centrado","tarjetas":"elevadas"},"textos":{"heroEtiqueta":"Elisa Variedades · Bogotá","heroTitulo":"Detalles que","heroTituloResaltado":"hacen hogar","heroSubtitulo":"Decoración, tejidos y detalles para darle un toque especial a tus espacios y a tu Navidad.","heroBoton":"Descubrir los detalles","heroImagen":"","estadisticas":[{"valor":"{productos}","etiqueta":"Detalles para elegir"},{"valor":"Bogotá","etiqueta":"Nuestro hogar"},{"valor":"♡","etiqueta":"Decoración y tejidos"}],"bannerEtiqueta":"Un hogar con tu estilo","bannerTitulo":"Pequeños detalles,","bannerTituloResaltado":"momentos especiales","bannerTexto":"Explora juegos de cocina y baño, cojines, tejidos y decoración navideña. Realizamos domicilios, envíos nacionales y ofrecemos recogida personal. La entrega puede tomar una semana o más, según la elaboración; consulta los tiempos y costos antes de pedir.","chips":["Decoración para el hogar","Tejidos y Navidad","Recogida personal","Envíos nacionales"],"catalogoEtiqueta":"Nuestra colección","catalogoTitulo":"Detalles para tu hogar","botonAgregar":"+ Añadir a mi carrito","beneficiosEtiqueta":"Así recibes tus detalles","beneficiosTitulo":"Tu pedido, a tu manera","recomendadosEtiqueta":"Para inspirarte","recomendadosTitulo":"Detalles para descubrir","topEtiqueta":"Los favoritos de la comunidad","topTitulo":"Los detalles más votados","dueloEtiqueta":"Elige tu favorito","dueloTitulo":"¿Qué detalle llevarías a casa?","dueloInfo":"Toca el detalle que más te guste y ayúdalo a subir entre los favoritos.","testimoniosEtiqueta":"Experiencias compartidas","testimoniosTitulo":"Historias de nuestros clientes","horariosEtiqueta":"Hablemos de tu pedido","horariosTitulo":"Horarios de atención","footerTexto":"Elisa Variedades · Decoración, tejidos y detalles para el hogar desde Bogotá.","footerFrase":"Detalles que hacen hogar.","carritoTitulo":"Tus detalles elegidos","botonPagar":"Consultar pedido por WhatsApp"},"productos":[{"id":"elisa-01","nombre":"Centro de mesa","precio":30000,"categoria":"Juegos de cocina","imagen":"foto:7y078h","opciones":null,"destacado":false},{"id":"elisa-02","nombre":"Carpeta tejida","precio":30000,"categoria":"Tejidos","imagen":"foto:7y078h","opciones":null,"destacado":false},{"id":"elisa-03","nombre":"Marco para interruptor de luz","precio":60000,"categoria":"Navidad","imagen":"foto:l8pdb9","opciones":null,"destacado":false},{"id":"elisa-04","nombre":"Juego de baño navideño sencillo","precio":50000,"categoria":"Juegos de baño","imagen":"foto:w1tu31","opciones":null,"destacado":false},{"id":"elisa-05","nombre":"Cojines con peluche","precio":60000,"categoria":"Cojines","imagen":"foto:37c1pa","opciones":null,"destacado":false},{"id":"elisa-06","nombre":"Muñecos navideños","precio":45000,"categoria":"Navidad","imagen":"foto:37c1pa","opciones":null,"destacado":false},{"id":"elisa-07","nombre":"Cojines navideños bordados en cinta","precio":45000,"categoria":"Cojines","imagen":"foto:fx4qez","opciones":null,"destacado":false},{"id":"elisa-08","nombre":"Set de centro de mesa e individuales","precio":80000,"categoria":"Juegos de cocina","imagen":"foto:72k1lc","opciones":null,"destacado":false},{"id":"elisa-09","nombre":"Delantal navideño estilo años 50","precio":60000,"categoria":"Juegos de cocina","imagen":"foto:fzhlkn","opciones":null,"destacado":false}],"beneficios":[{"icono":"🚚","titulo":"Entregas y envíos","texto":"Domicilios en Bogotá y alrededores y envíos nacionales. Consulta cobertura y costo para tu dirección."},{"icono":"🛍️","titulo":"Recogida personal","texto":"También puedes recoger tu pedido personalmente. Coordina el lugar y la entrega por WhatsApp."},{"icono":"🧵","titulo":"Cada elaboración tiene su tiempo","texto":"Planea tu pedido con anticipación: la entrega toma una semana o más, dependiendo de la elaboración."}],"testimonios":[],"pagos":{"metodos":[{"nombre":"Contraentrega","icono":"💵","tipo":"contraentrega"}],"numeroTransferencia":"[POR COMPLETAR]","titular":"[POR COMPLETAR]","contraentregaDetalle":"Solo para clientes conocidos o recomendados, en Engativá y alrededores. Sin costo adicional por contraentrega. El dueño del negocio recibe el pago. Forma de cobro y otros medios de pago: [POR COMPLETAR]."},"backend":{"url":"https://script.google.com/macros/s/AKfycbwZ5o7m6CPdgkoqM-F_L7Sz-vpLHpxGvjxfhvhwvV_zlARAN6uUSLx1TJJFXhLNEEnx/exec"},"asistente":{"activo":true,"nombre":"Eli","saludo":"¡Hola! Soy Eli, tu asistente de Elisa Variedades. Te ayudo a descubrir detalles para tu hogar y consultar cómo hacer tu pedido."},"secciones":["banner","catalogo","beneficios","recomendados","top","duelo"],"personalizado":{"css":"","secciones":[]}}</script>
+<script type="application/json" id="harvys-rutas">{"elisa-01":"img/centrodemesaycarpeta-7y078h.jpg","elisa-02":"img/centrodemesaycarpeta-7y078h.jpg","elisa-03":"img/marcoparainterruptordeluz-l8pdb9.jpg","elisa-04":"img/juegodebanonavidenosencillo-w1tu31.jpg","elisa-05":"img/cojinesymunecosnavidenos-37c1pa.jpg","elisa-06":"img/cojinesymunecosnavidenos-37c1pa.jpg","elisa-07":"img/cojinesnavidenosbordadosencinta-fx4qez.jpg","elisa-08":"img/setcentrodemesaeindividuales-72k1lc.jpg","elisa-09":"img/delantalnavidenoestiloanos50-fzhlkn.jpg"}</script>
+<script src="script.js"></script>
+</body>
+</html>
